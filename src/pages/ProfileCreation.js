@@ -14,18 +14,13 @@ function ProfileCreation() {
       motherName: "",
       fatherName: "",
       siblings: "",
+      phoneNumber: "",
+      email: "",
     },
     education: [],
-    workDetails: {
-      company: "",
-      position: "",
-      experience: "",
-    },
-    businessDetails: {
-      businessName: "",
-      type: "",
-      registrationNumber: "",
-    },
+    education: [],
+    workDetails: [],
+    businessDetails: [],
   });
 
   const [showBusinessDetails, setShowBusinessDetails] = useState(false);
@@ -64,25 +59,49 @@ function ProfileCreation() {
     }));
   };
 
-  const handleWorkDetailsChange = (e) => {
-    const { name, value } = e.target;
+  const addWorkDetail = () => {
     setFormData((prev) => ({
       ...prev,
-      workDetails: {
-        ...prev.workDetails,
-        [name]: value,
-      },
+      workDetails: [...prev.workDetails, { company: "", position: "", experience: "" }],
     }));
   };
 
-  const handleBusinessDetailsChange = (e) => {
-    const { name, value } = e.target;
+  const removeWorkDetail = (index) => {
     setFormData((prev) => ({
       ...prev,
-      businessDetails: {
-        ...prev.businessDetails,
-        [name]: value,
-      },
+      workDetails: prev.workDetails.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleWorkDetailsChange = (index, field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      workDetails: prev.workDetails.map((work, i) =>
+        i === index ? { ...work, [field]: value } : work
+      ),
+    }));
+  };
+
+  const addBusinessDetail = () => {
+    setFormData((prev) => ({
+      ...prev,
+      businessDetails: [...prev.businessDetails, { businessName: "", type: "", registrationNumber: "" }],
+    }));
+  };
+
+  const removeBusinessDetail = (index) => {
+    setFormData((prev) => ({
+      ...prev,
+      businessDetails: prev.businessDetails.filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleBusinessDetailsChange = (index, field, value) => {
+    setFormData((prev) => ({
+      ...prev,
+      businessDetails: prev.businessDetails.map((biz, i) =>
+        i === index ? { ...biz, [field]: value } : biz
+      ),
     }));
   };
 
@@ -100,6 +119,7 @@ function ProfileCreation() {
           <h2 className="text-center mb-4">Create Your Profile</h2>
           <Form onSubmit={handleSubmit}>
             {/* Personal Details */}
+
             <Card className="mb-4">
               <Card.Header>Personal Details</Card.Header>
               <Card.Body>
@@ -157,6 +177,30 @@ function ProfileCreation() {
                         type="text"
                         name="fatherName"
                         value={formData.personalDetails.fatherName}
+                        onChange={handlePersonalDetailsChange}
+                      />
+                    </Form.Group>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Phone Number</Form.Label>
+                      <Form.Control
+                        type="tel"
+                        name="phoneNumber"
+                        value={formData.personalDetails.phoneNumber}
+                        onChange={handlePersonalDetailsChange}
+                      />
+                    </Form.Group>
+                  </Col>
+                  <Col md={6}>
+                    <Form.Group className="mb-3">
+                      <Form.Label>Email</Form.Label>
+                      <Form.Control
+                        type="email"
+                        name="email"
+                        value={formData.personalDetails.email}
                         onChange={handlePersonalDetailsChange}
                       />
                     </Form.Group>
@@ -259,43 +303,46 @@ function ProfileCreation() {
 
             {/* Work Details */}
             <Card className="mb-4">
-              <Card.Header>Work Details</Card.Header>
+              <Card.Header>
+                Work Details
+                <Button variant="outline-primary" size="sm" className="float-end" onClick={addWorkDetail}>
+                  Add Work
+                </Button>
+              </Card.Header>
               <Card.Body>
-                <Row>
-                  <Col md={4}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Company</Form.Label>
+                {formData.workDetails.map((work, index) => (
+                  <Row key={index} className="mb-3 align-items-center">
+                    <Col md={3}>
                       <Form.Control
                         type="text"
-                        name="company"
-                        value={formData.workDetails.company}
-                        onChange={handleWorkDetailsChange}
+                        placeholder="Company"
+                        value={work.company}
+                        onChange={(e) => handleWorkDetailsChange(index, "company", e.target.value)}
                       />
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Position</Form.Label>
+                    </Col>
+                    <Col md={3}>
                       <Form.Control
                         type="text"
-                        name="position"
-                        value={formData.workDetails.position}
-                        onChange={handleWorkDetailsChange}
+                        placeholder="Position"
+                        value={work.position}
+                        onChange={(e) => handleWorkDetailsChange(index, "position", e.target.value)}
                       />
-                    </Form.Group>
-                  </Col>
-                  <Col md={4}>
-                    <Form.Group className="mb-3">
-                      <Form.Label>Experience (years)</Form.Label>
+                    </Col>
+                    <Col md={3}>
                       <Form.Control
                         type="number"
-                        name="experience"
-                        value={formData.workDetails.experience}
-                        onChange={handleWorkDetailsChange}
+                        placeholder="Experience (years)"
+                        value={work.experience}
+                        onChange={(e) => handleWorkDetailsChange(index, "experience", e.target.value)}
                       />
-                    </Form.Group>
-                  </Col>
-                </Row>
+                    </Col>
+                    <Col md={1}>
+                      <Button variant="outline-danger" size="sm" onClick={() => removeWorkDetail(index)}>
+                        <FontAwesomeIcon icon={faTrash} />
+                      </Button>
+                    </Col>
+                  </Row>
+                ))}
               </Card.Body>
             </Card>
 
@@ -303,51 +350,44 @@ function ProfileCreation() {
             <Card className="mb-4">
               <Card.Header>
                 Business Details
-                <Form.Check
-                  type="switch"
-                  className="float-end"
-                  checked={showBusinessDetails}
-                  onChange={(e) => setShowBusinessDetails(e.target.checked)}
-                />
+                <Button variant="outline-primary" size="sm" className="float-end" onClick={addBusinessDetail}>
+                  Add Business
+                </Button>
               </Card.Header>
               <Card.Body>
-                {showBusinessDetails && (
-                  <Row>
-                    <Col md={4}>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Business Name</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="businessName"
-                          value={formData.businessDetails.businessName}
-                          onChange={handleBusinessDetailsChange}
-                        />
-                      </Form.Group>
+                {formData.businessDetails.map((biz, index) => (
+                  <Row key={index} className="mb-3 align-items-center">
+                    <Col md={3}>
+                      <Form.Control
+                        type="text"
+                        placeholder="Business Name"
+                        value={biz.businessName}
+                        onChange={(e) => handleBusinessDetailsChange(index, "businessName", e.target.value)}
+                      />
                     </Col>
-                    <Col md={4}>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Business Type</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="type"
-                          value={formData.businessDetails.type}
-                          onChange={handleBusinessDetailsChange}
-                        />
-                      </Form.Group>
+                    <Col md={3}>
+                      <Form.Control
+                        type="text"
+                        placeholder="Business Type"
+                        value={biz.type}
+                        onChange={(e) => handleBusinessDetailsChange(index, "type", e.target.value)}
+                      />
                     </Col>
-                    <Col md={4}>
-                      <Form.Group className="mb-3">
-                        <Form.Label>Registration Number</Form.Label>
-                        <Form.Control
-                          type="text"
-                          name="registrationNumber"
-                          value={formData.businessDetails.registrationNumber}
-                          onChange={handleBusinessDetailsChange}
-                        />
-                      </Form.Group>
+                    <Col md={3}>
+                      <Form.Control
+                        type="text"
+                        placeholder="Registration Number"
+                        value={biz.registrationNumber}
+                        onChange={(e) => handleBusinessDetailsChange(index, "registrationNumber", e.target.value)}
+                      />
+                    </Col>
+                    <Col md={1}>
+                      <Button variant="outline-danger" size="sm" onClick={() => removeBusinessDetail(index)}>
+                        <FontAwesomeIcon icon={faTrash} />
+                      </Button>
                     </Col>
                   </Row>
-                )}
+                ))}
               </Card.Body>
             </Card>
 

@@ -1,0 +1,8 @@
+.nav-logo-link{
+    width: 110px;
+}
+
+.active-link{
+    font-weight: bold;
+    color: white;
+}

@@ -9,57 +9,101 @@ import {
   Col,
 } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
+import emailjs from "emailjs-com";
+import OtpInput from "react-otp-input";
+import logo from "../Assets/image/logo-tap.png";
+import "../Css/Login.css";
 
-function Login() {
+function Login({onLogin}) {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
-  const [showOtpInput, setShowOtpInput] = useState(false);
-  const [otpSent, setOtpSent] = useState(false);
+  const [generatedOtp, setGeneratedOtp] = useState(null);
   const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+  const [isOtpSent, setIsOtpSent] = useState(false);
   const navigate = useNavigate();
 
-  const generateOTP = () => {
-    // Generate a random 6-digit OTP
-    const otp = Math.floor(100000 + Math.random() * 900000);
-    setOtpSent(true);
-    setShowOtpInput(true);
-    // In a real application, this would be sent to the user's email
-    console.log("Generated OTP:", otp);
-    return otp;
+  // Function to generate 4-digit OTP
+  const generateOtp = () => {
+    return Math.floor(1000 + Math.random() * 9000); // 4-digit OTP
   };
 
-  const handleVerifyEmail = (e) => {
+  // Function to send OTP via EmailJS
+  const sendOtp = async (e) => {
     e.preventDefault();
     if (!email) {
       setError("Please enter your email address");
       return;
     }
-    generateOTP();
+
+    const otpCode = generateOtp();
+    setGeneratedOtp(otpCode);
+
+    const emailParams = {
+      to_email: email,
+      otp: otpCode,
+    };
+
+    emailjs
+      .send(
+        "service_6mp18m8", // Replace with EmailJS Service ID
+        "template_04qfshl", // Replace with EmailJS Template ID
+        emailParams,
+        "8J_bUEsWOCpjzHV4P" // Replace with EmailJS User ID
+      )
+      .then(
+        (response) => {
+          console.log("Email sent successfully:", response);
+          setSuccess("OTP has been sent to your email.");
+          setIsOtpSent(true);
+          setError("");
+        },
+        (error) => {
+          console.error("Email sending failed:", error);
+          setError("Failed to send OTP. Try again.");
+        }
+      );
   };
 
-  const handleLogin = (e) => {
+  // Function to verify OTP
+  const verifyOtp = (e) => {
     e.preventDefault();
     if (!otp) {
       setError("Please enter the OTP");
       return;
     }
-    // In a real application, verify the OTP here
-    navigate("/profile-creation");
+
+    if (parseInt(otp) === generatedOtp) {
+      
+      setError("");
+      alert("OTP verified successfully!");
+      onLogin();
+      navigate("/profile-creation");
+    } else {
+      setError("Invalid OTP. Please try again.");
+    }
   };
 
   return (
-    <Container className="py-5">
-      <Row className="justify-content-center">
-        <Col md={6}>
-          <Card>
-            <Card.Body>
-              <h2 className="text-center mb-4">Login</h2>
-              {error && <Alert variant="danger">{error}</Alert>}
+    <div className="login-main-div d-flex align-items-center justify-content-center">
+      <Container className="py-5">
+        <Row className="justify-content-center">
+          <Col md={4}>
+            <Card className="login-card">
+              <Card.Body>
+                <div className="d-flex justify-content-center mb-3">
+                  <div className="w-50">
+                    <img src={logo} className="img-fluid"></img>
+                  </div>
+                </div>
 
-              {!showOtpInput ? (
-                <Form onSubmit={handleVerifyEmail}>
+                {error && <Alert className="danger-alert" variant="danger">{error}</Alert>}
+                {success && <Alert className="danger-alert" variant="success">{success}</Alert>}
+                <Form onSubmit={sendOtp}>
                   <Form.Group className="mb-3">
-                    <Form.Label>Email Address</Form.Label>
+                    <Form.Label>
+                      <strong className="text-white">Email Address</strong>
+                    </Form.Label>
                     <Form.Control
                       type="email"
                       placeholder="Enter your email"
@@ -67,31 +111,48 @@ function Login() {
                       onChange={(e) => setEmail(e.target.value)}
                     />
                   </Form.Group>
-                  <Button variant="primary" type="submit" className="w-100">
-                    Verify Email
-                  </Button>
+                  <div className="d-flex justify-content-center">
+                    <Button
+                      type="submit"
+                      className=" login-sendotp-button text-center"
+                    >
+                      {isOtpSent ? "Resend OTP" : "Send OTP"}
+                    </Button>
+                  </div>
                 </Form>
-              ) : (
-                <Form onSubmit={handleLogin}>
+
+                <Form onSubmit={verifyOtp} className="mt-3">
                   <Form.Group className="mb-3">
-                    <Form.Label>Enter OTP</Form.Label>
-                    <Form.Control
-                      type="text"
-                      placeholder="Enter 6-digit OTP"
+                    <Form.Label>
+                      <strong className="text-white">Enter OTP</strong>
+                    </Form.Label>
+                    <OtpInput
                       value={otp}
-                      onChange={(e) => setOtp(e.target.value)}
+                      onChange={setOtp}
+                      numInputs={4}
+                      renderSeparator={<span style={{ width: "10px" }} />}
+                      renderInput={(props) => (
+                        <input {...props} className="otp-input" />
+                      )}
+                      containerStyle="otp-container"
                     />
                   </Form.Group>
-                  <Button variant="primary" type="submit" className="w-100">
-                    Login
-                  </Button>
+                  <div className="d-flex justify-content-center">
+                    <Button
+                      variant="primary"
+                      type="submit"
+                      className="login-sendotp-button text-center"
+                    >
+                      Verify OTP
+                    </Button>
+                  </div>
                 </Form>
-              )}
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </div>
   );
 }
 

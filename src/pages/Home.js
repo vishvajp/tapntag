@@ -1,7 +1,11 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-
+import "../Css/Home.css"
+import nfcPic from "../Assets/image/nfc-main-pic.png"
+import simple from "../Assets/image/smartnsimple.jpg"
+import design from "../Assets/image/design.jpg"
+import share from "../Assets/image/share.jpg"
 function Home() {
   return (
     <div>
@@ -27,14 +31,12 @@ function Home() {
                 <Button as={Link} to="/login" variant="light" size="lg">
                   Get Started
                 </Button>
-                <Button as={Link} to="/login" variant="outline-light" size="lg">
-                  Learn More
-                </Button>
+          
               </div>
             </Col>
             <Col md={6}>
               <img
-                src="/hero-image.png"
+                src={nfcPic}
                 alt="Digital Business Card"
                 className="img-fluid"
               />
@@ -44,13 +46,17 @@ function Home() {
       </div>
 
       {/* Features Section */}
-      <Container className="py-5">
+      <Container className="py-4">
         <h2 className="text-center mb-5">Why Choose TapnTag?</h2>
         <Row>
-          <Col md={4} className="mb-4">
-            <div className="text-center p-4">
+          <Col md={4} className="mb-3">
+            <div className="text-center choose-tapntag p-4">
               <div className="mb-3">
-                <i className="fas fa-mobile-alt fa-3x text-primary"></i>
+              <img
+                src={simple}
+                alt="Digital Business Card"
+                className="img-fluid"
+              />
               </div>
               <h3>Smart & Simple</h3>
               <p>
@@ -59,10 +65,14 @@ function Home() {
               </p>
             </div>
           </Col>
-          <Col md={4} className="mb-4">
-            <div className="text-center p-4">
+          <Col md={4} className="mb-3">
+            <div className="text-center choose-tapntag p-4">
               <div className="mb-3">
-                <i className="fas fa-paint-brush fa-3x text-primary"></i>
+              <img
+                src={design}
+                alt="Digital Business Card"
+                className="img-fluid"
+              />
               </div>
               <h3>Customizable Design</h3>
               <p>
@@ -71,10 +81,14 @@ function Home() {
               </p>
             </div>
           </Col>
-          <Col md={4} className="mb-4">
-            <div className="text-center p-4">
+          <Col md={4} className="mb-3">
+            <div className="text-center choose-tapntag p-4">
               <div className="mb-3">
-                <i className="fas fa-share-alt fa-3x text-primary"></i>
+              <img
+                src={share}
+                alt="Digital Business Card"
+                className="img-fluid"
+              />
               </div>
               <h3>Instant Sharing</h3>
               <p>
