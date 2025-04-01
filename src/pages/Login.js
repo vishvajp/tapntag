@@ -11,10 +11,10 @@ import {
 import { useNavigate } from "react-router-dom";
 import emailjs from "emailjs-com";
 import OtpInput from "react-otp-input";
-import logo from "../Assets/image/logo-tap.png";
+import logo from "../assets/image/logo-tap.png";
 import "../Css/Login.css";
 
-function Login({onLogin}) {
+function Login({ onLogin }) {
   const [email, setEmail] = useState("");
   const [otp, setOtp] = useState("");
   const [generatedOtp, setGeneratedOtp] = useState(null);
@@ -74,7 +74,6 @@ function Login({onLogin}) {
     }
 
     if (parseInt(otp) === generatedOtp) {
-      
       setError("");
       alert("OTP verified successfully!");
       onLogin();
@@ -97,8 +96,16 @@ function Login({onLogin}) {
                   </div>
                 </div>
 
-                {error && <Alert className="danger-alert" variant="danger">{error}</Alert>}
-                {success && <Alert className="danger-alert" variant="success">{success}</Alert>}
+                {error && (
+                  <Alert className="danger-alert" variant="danger">
+                    {error}
+                  </Alert>
+                )}
+                {success && (
+                  <Alert className="danger-alert" variant="success">
+                    {success}
+                  </Alert>
+                )}
                 <Form onSubmit={sendOtp}>
                   <Form.Group className="mb-3">
                     <Form.Label>

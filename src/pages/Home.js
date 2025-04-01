@@ -1,11 +1,12 @@
 import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "../Css/Home.css"
-import nfcPic from "../Assets/image/nfc-main-pic.png"
-import simple from "../Assets/image/smartnsimple.jpg"
-import design from "../Assets/image/design.jpg"
-import share from "../Assets/image/share.jpg"
+import ProductSlider from "../components/ProductSlider";
+import "../Css/Home.css";
+import nfcMainPic from "../assets/image/nfc-main-pic.png";
+import smartnsimple from "../assets/image/smartnsimple.jpg";
+import design from "../assets/image/design.jpg";
+import share from "../assets/image/share.jpg";
 function Home() {
   return (
     <div>
@@ -31,12 +32,11 @@ function Home() {
                 <Button as={Link} to="/login" variant="light" size="lg">
                   Get Started
                 </Button>
-          
               </div>
             </Col>
             <Col md={6}>
               <img
-                src={nfcPic}
+                src={nfcMainPic}
                 alt="Digital Business Card"
                 className="img-fluid"
               />
@@ -52,11 +52,11 @@ function Home() {
           <Col md={4} className="mb-3">
             <div className="text-center choose-tapntag p-4">
               <div className="mb-3">
-              <img
-                src={simple}
-                alt="Digital Business Card"
-                className="img-fluid"
-              />
+                <img
+                  src={smartnsimple}
+                  alt="Digital Business Card"
+                  className="img-fluid"
+                />
               </div>
               <h3>Smart & Simple</h3>
               <p>
@@ -68,11 +68,11 @@ function Home() {
           <Col md={4} className="mb-3">
             <div className="text-center choose-tapntag p-4">
               <div className="mb-3">
-              <img
-                src={design}
-                alt="Digital Business Card"
-                className="img-fluid"
-              />
+                <img
+                  src={design}
+                  alt="Digital Business Card"
+                  className="img-fluid"
+                />
               </div>
               <h3>Customizable Design</h3>
               <p>
@@ -84,11 +84,11 @@ function Home() {
           <Col md={4} className="mb-3">
             <div className="text-center choose-tapntag p-4">
               <div className="mb-3">
-              <img
-                src={share}
-                alt="Digital Business Card"
-                className="img-fluid"
-              />
+                <img
+                  src={share}
+                  alt="Digital Business Card"
+                  className="img-fluid"
+                />
               </div>
               <h3>Instant Sharing</h3>
               <p>
@@ -99,7 +99,7 @@ function Home() {
           </Col>
         </Row>
       </Container>
-
+      <ProductSlider></ProductSlider>
       {/* CTA Section */}
       <div className="bg-light py-5">
         <Container className="text-center">

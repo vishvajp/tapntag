@@ -11,6 +11,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import ProfileCreation from "./pages/ProfileCreation";
 import ProfileDisplay from "./pages/ProfileDisplay";
+import ProductDetail from "./pages/ProductDetail";
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(
@@ -29,10 +30,10 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<Login onLogin={handleLogin} />} />
           <Route path="/profile-creation" element={<ProfileCreation />} />
+          <Route path="/profile-display" element={<ProfileDisplay />} />
+          <Route path="/product/:id" element={<ProductDetail />} />
           {isAuthenticated ? (
             <>
-              
-              
               <Route path="/profile-display" element={<ProfileDisplay />} />
             </>
           ) : (
