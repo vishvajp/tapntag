@@ -23,23 +23,23 @@ function App() {
     setIsAuthenticated(localStorage.getItem("isAuthenticated"));
   };
   return (
-    <Router>
+    <Router basename="/">
       <div className="App">
         <Navbar />
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={<Login onLogin={handleLogin} />} />
-          <Route path="/profile-creation" element={<ProfileCreation />} />
-          <Route path="/profile-display" element={<ProfileDisplay />} />
-          <Route path="/product/:id" element={<ProductDetail />} />
-          {isAuthenticated ? (
-            <>
+        <div style={{ paddingTop: "62.5px" }}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login onLogin={handleLogin} />} />
+            <Route path="/profile-creation" element={<ProfileCreation />} />
+            <Route path="/profile-display" element={<ProfileDisplay />} />
+            <Route path="/product/:id" element={<ProductDetail />} />
+            {isAuthenticated ? (
               <Route path="/profile-display" element={<ProfileDisplay />} />
-            </>
-          ) : (
-            <Route path="/*" element={<Navigate to="/login" />} />
-          )}
-        </Routes>
+            ) : (
+              <Route path="/*" element={<Navigate to="/login" />} />
+            )}
+          </Routes>
+        </div>
       </div>
     </Router>
   );

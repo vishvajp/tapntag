@@ -29,8 +29,8 @@ function NavigationBar() {
           <img src={logo} className="img-fluid"></img>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
+        <Navbar.Collapse className="justify-content-center" id="basic-navbar-nav">
+          <Nav >
             <Nav.Link
               as={Link}
               to="/"

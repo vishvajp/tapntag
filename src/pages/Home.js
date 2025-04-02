@@ -25,8 +25,8 @@ function Home() {
               </h1>
               <p className="lead mb-4">
                 Transform your professional presence with TapnTag - the modern
-                way to share your story, connect with others, and grow your
-                network.
+                way to share your story, share your business, and grow your
+                social network.
               </p>
               <div className="d-flex gap-3">
                 <Button as={Link} to="/login" variant="light" size="lg">
@@ -46,10 +46,10 @@ function Home() {
       </div>
 
       {/* Features Section */}
-      <Container className="py-4">
+      <Container fluid className="py-4 ps-5 pe-5">
         <h2 className="text-center mb-5">Why Choose TapnTag?</h2>
         <Row>
-          <Col md={4} className="mb-3">
+          <Col md={3} className="mb-3">
             <div className="text-center choose-tapntag p-4">
               <div className="mb-3">
                 <img
@@ -65,7 +65,7 @@ function Home() {
               </p>
             </div>
           </Col>
-          <Col md={4} className="mb-3">
+          <Col md={3} className="mb-3">
             <div className="text-center choose-tapntag p-4">
               <div className="mb-3">
                 <img
@@ -81,7 +81,23 @@ function Home() {
               </p>
             </div>
           </Col>
-          <Col md={4} className="mb-3">
+          <Col md={3} className="mb-3">
+            <div className="text-center choose-tapntag p-4">
+              <div className="mb-3">
+                <img
+                  src={share}
+                  alt="Digital Business Card"
+                  className="img-fluid"
+                />
+              </div>
+              <h3>Instant Sharing</h3>
+              <p>
+                Share your profile instantly via QR code or direct link. Connect
+                with anyone, anywhere.
+              </p>
+            </div>
+          </Col>
+          <Col md={3} className="mb-3">
             <div className="text-center choose-tapntag p-4">
               <div className="mb-3">
                 <img
@@ -99,7 +115,9 @@ function Home() {
           </Col>
         </Row>
       </Container>
+      <div id="product-section" >
       <ProductSlider></ProductSlider>
+      </div>
       {/* CTA Section */}
       <div className="bg-light py-5">
         <Container className="text-center">

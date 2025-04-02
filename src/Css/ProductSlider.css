@@ -4,7 +4,7 @@
 }
 
 .product-carousel {
-  padding: 0 2rem;
+  padding: 0 5rem;
 }
 
 .product-card {
@@ -61,11 +61,11 @@
 }
 
 .carousel-control-prev {
-  left: -20px;
+  left: 20px;
 }
 
 .carousel-control-next {
-  right: -20px;
+  right: 20px;
 }
 
 .carousel-control-prev:hover,
@@ -75,6 +75,10 @@
 }
 
 /* Carousel Indicators */
+
+.carousel-indicators [data-bs-target]{
+  background-color: gray;
+}
 .carousel-indicators {
   bottom: -40px;
 }
