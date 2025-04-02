@@ -25,7 +25,82 @@ const products = [
       "Water-resistant coating",
     ],
   },
-  // Add other products here...
+  {
+    id: 2,
+    name: "Visiting Card",
+    price: "₹199",
+    description:
+      "Transform your traditional business card into a smart, interactive digital card. Our NFC-enabled visiting card allows you to share your professional information instantly. Perfect for networking events and business meetings.",
+    images: [
+      "/images/visiting-card-1.jpg",
+      "/images/visiting-card-2.jpg",
+      "/images/visiting-card-3.jpg",
+      "/images/visiting-card-4.jpg",
+    ],
+    features: [
+      "Professional design options",
+      "Instant contact sharing",
+      "QR code integration",
+      "Digital profile linking",
+    ],
+  },
+  {
+    id: 3,
+    name: "Statue",
+    price: "₹499",
+    description:
+      "Add a touch of elegance to your workspace with our NFC-enabled decorative statue. This unique piece combines artistic design with modern technology, allowing you to share your digital presence in style.",
+    images: [
+      "/images/statue-1.jpg",
+      "/images/statue-2.jpg",
+      "/images/statue-3.jpg",
+      "/images/statue-4.jpg",
+    ],
+    features: [
+      "Premium quality materials",
+      "Handcrafted design",
+      "NFC technology integration",
+      "Perfect desk accessory",
+    ],
+  },
+  {
+    id: 4,
+    name: "Doll",
+    price: "₹399",
+    description:
+      "Make learning fun with our interactive NFC-enabled doll. Perfect for children, this cute and cuddly companion helps teach about digital sharing in a playful way. The doll features soft materials and a friendly design.",
+    images: [
+      "/images/doll-1.jpg",
+      "/images/doll-2.jpg",
+      "/images/doll-3.jpg",
+      "/images/doll-4.jpg",
+    ],
+    features: [
+      "Child-safe materials",
+      "Interactive learning tool",
+      "Soft and cuddly design",
+      "Educational value",
+    ],
+  },
+  {
+    id: 5,
+    name: "Tag",
+    price: "₹149",
+    description:
+      "Our versatile NFC tag is the perfect solution for any surface. Whether you want to attach it to your laptop, notebook, or any other item, this compact and durable tag makes digital sharing simple and effective.",
+    images: [
+      "/images/tag-1.jpg",
+      "/images/tag-2.jpg",
+      "/images/tag-3.jpg",
+      "/images/tag-4.jpg",
+    ],
+    features: [
+      "Adhesive backing",
+      "Compact design",
+      "Universal compatibility",
+      "Easy to attach",
+    ],
+  },
 ];
 
 function ProductDetail() {
@@ -39,7 +114,17 @@ function ProductDetail() {
   }, [id]);
 
   if (!product) {
-    return <div>Loading...</div>;
+    return (
+      <Container
+        className="d-flex justify-content-center align-items-center"
+        style={{ minHeight: "60vh" }}
+      >
+        <div className="text-center">
+          <h2>Loading...</h2>
+          <p>Please wait while we fetch the product details.</p>
+        </div>
+      </Container>
+    );
   }
 
   return (
