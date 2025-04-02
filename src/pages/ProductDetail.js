@@ -1,8 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Container, Row, Col, Button, Carousel } from "react-bootstrap";
+import {
+  Container,
+  Row,
+  Col,
+  Button,
+  Carousel,
+  InputGroup,
+} from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
+import {
+  faShoppingCart,
+  faPlus,
+  faMinus,
+} from "@fortawesome/free-solid-svg-icons";
 import "../Css/ProductDetail.css";
 
 const products = [
@@ -107,11 +118,19 @@ function ProductDetail() {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [selectedImage, setSelectedImage] = useState(0);
+  const [quantity, setQuantity] = useState(1);
 
   useEffect(() => {
     const foundProduct = products.find((p) => p.id === parseInt(id));
     setProduct(foundProduct);
   }, [id]);
+
+  const handleQuantityChange = (change) => {
+    const newQuantity = quantity + change;
+    if (newQuantity >= 1 && newQuantity <= 10) {
+      setQuantity(newQuantity);
+    }
+  };
 
   if (!product) {
     return (
@@ -168,6 +187,34 @@ function ProductDetail() {
                   <li key={index}>{feature}</li>
                 ))}
               </ul>
+            </div>
+
+            <div className="quantity-selector mb-4">
+              <label className="me-2">Quantity:</label>
+              <InputGroup style={{ width: "150px" }}>
+                <Button
+                  variant="outline-secondary"
+                  onClick={() => handleQuantityChange(-1)}
+                  className="quantity-btn"
+                >
+                  <FontAwesomeIcon icon={faMinus} />
+                </Button>
+                <input
+                  type="number"
+                  className="form-control text-center"
+                  value={quantity}
+                  readOnly
+                  min="1"
+                  max="10"
+                />
+                <Button
+                  variant="outline-secondary"
+                  onClick={() => handleQuantityChange(1)}
+                  className="quantity-btn"
+                >
+                  <FontAwesomeIcon icon={faPlus} />
+                </Button>
+              </InputGroup>
             </div>
 
             <div className="button-group">
