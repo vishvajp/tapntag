@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Container, Badge } from "react-bootstrap";
 import logo from "../assets/image/logo-tap.png";
 import "../Css/Navbar.css";
@@ -8,17 +8,59 @@ import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 function NavigationBar() {
   const location = useLocation();
-  const [cartCount, setCartCount] = useState(0);
+  const [cartCount] = useState(0);
+  const [activeSection, setActiveSection] = useState("");
+  const navigate = useNavigate();
+  const isAuthenticated = localStorage.getItem("isAuthenticated");
+  console.log(isAuthenticated);
+  useEffect(() => {
+    // Reset active section when not on home page
+    if (location.pathname !== "/") {
+      setActiveSection("");
+      return;
+    }
 
-  const scrollToProduct = (e) => {
-    e.preventDefault();
-    if (location.pathname === "/") {
-      const productSection = document.getElementById("product-section");
-      if (productSection) {
-        productSection.scrollIntoView({ behavior: "smooth" });
-      }
-    } else {
-      window.location.href = "/#product-section";
+    // Handle hash navigation
+    if (location.hash === "#product-section") {
+      setActiveSection("product");
+      scrollToProduct();
+      return;
+    }
+
+    const productSection = document.getElementById("product-section");
+    if (!productSection) {
+      setActiveSection("home");
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setActiveSection("product");
+        } else {
+          setActiveSection("home");
+        }
+      },
+      { threshold: 0.1 }
+    );
+
+    observer.observe(productSection);
+
+    return () => observer.disconnect();
+  }, [location]);
+
+  const scrollToProduct = () => {
+    const productSection = document.getElementById("product-section");
+    if (productSection) {
+      productSection.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  };
+
+  const handleProductClick = (e) => {
+    if (location.pathname !== "/") {
+      e.preventDefault();
+      navigate("/");
+      setTimeout(scrollToProduct, 100);
     }
   };
 
@@ -26,28 +68,46 @@ function NavigationBar() {
     <Navbar bg="dark" variant="dark" expand="lg" fixed="top">
       <Container>
         <Navbar.Brand as={Link} to="/" className="nav-logo-link">
-          <img src={logo} className="img-fluid"></img>
+          <img src={logo} className="img-fluid" alt="Company Logo" />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse className="justify-content-center" id="basic-navbar-nav">
-          <Nav >
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mx-auto">
             <Nav.Link
               as={Link}
               to="/"
-              className={location.pathname === "/" ? "active-link" : ""}
+              className={activeSection === "home" ? "active-link" : ""}
             >
               Home
             </Nav.Link>
-            <Nav.Link href="#" onClick={scrollToProduct}>
-              Product
-            </Nav.Link>
             <Nav.Link
               as={Link}
-              to="/login"
-              className={location.pathname === "/login" ? "active-link" : ""}
+              to="/#product-section"
+              className={activeSection === "product" ? "active-link" : ""}
+              onClick={handleProductClick}
             >
-              Login
+              Product
             </Nav.Link>
+            {!isAuthenticated && (
+              <Nav.Link
+                as={Link}
+                to="/login"
+                className={location.pathname === "/login" ? "active-link" : ""}
+              >
+                Login
+              </Nav.Link>
+            )}
+            {isAuthenticated && (
+              <Nav.Link
+                as={Link}
+                to="/profile-creation"
+                className={
+                  location.pathname === "/profile-creation" ? "active-link" : ""
+                }
+              >
+                Profile-creation
+              </Nav.Link>
+            )}
           </Nav>
           <Nav>
             <Nav.Link as={Link} to="/cart" className="position-relative">
